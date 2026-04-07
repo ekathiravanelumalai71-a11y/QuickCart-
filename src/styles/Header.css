@@ -1,0 +1,72 @@
+.header {
+  position: relative;
+  overflow: hidden;
+  padding: 72px 20px 56px;
+  margin-bottom: 24px;
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.97), rgba(37, 99, 235, 0.9)),
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.18), transparent 30%);
+  color: #fff;
+  box-shadow: var(--shadow);
+}
+
+.header::before,
+.header::after {
+  content: '';
+  position: absolute;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  filter: blur(10px);
+}
+
+.header::before {
+  width: 260px;
+  height: 260px;
+  top: -120px;
+  right: -70px;
+}
+
+.header::after {
+  width: 160px;
+  height: 160px;
+  bottom: -70px;
+  left: -40px;
+}
+
+.header-container {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.header-title {
+  margin: 0;
+  font-size: clamp(2.6rem, 6vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.header-subtitle {
+  max-width: 620px;
+  margin: 16px auto 0;
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 56px 16px 44px;
+  }
+}
