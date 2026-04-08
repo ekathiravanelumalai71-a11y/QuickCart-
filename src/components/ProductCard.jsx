@@ -1,6 +1,6 @@
 import '../styles/ProductCard.css';
 
-function ProductCard({ product }) {
+function ProductCard({ product, onAddToCart }) {
   return (
     <article className="product-card">
       <div className="product-image-container">
@@ -13,6 +13,9 @@ function ProductCard({ product }) {
         </div>
         <h3 className="product-name">{product.name}</h3>
         <p className="product-description">{product.description}</p>
+        <button type="button" className="add-to-cart-btn" onClick={() => onAddToCart(product)}>
+          Add to Cart
+        </button>
       </div>
     </article>
   );
