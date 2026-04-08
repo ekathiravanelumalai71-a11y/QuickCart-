@@ -1,67 +1,37 @@
 import { useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './components/Header.jsx';
-import ProductList from './components/ProductList.jsx';
+import HomePage from './components/HomePage.jsx';
+import CategoryPage from './components/CategoryPage.jsx';
+import CartPage from './components/CartPage.jsx';
 import CartSidebar from './components/CartSidebar.jsx';
 import { products } from './data/products.js';
 import './styles/App.css';
 
 function App() {
-  const [cart, setCart] = useState([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-
-  const addToCart = (product) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === product.id);
-
-      if (existingItem) {
-        return prevCart.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      }
-
-      return [...prevCart, { ...product, quantity: 1 }];
-    });
-  };
-
-  const removeFromCart = (productId) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
-  };
-
-  const updateQuantity = (productId, newQuantity) => {
-    if (newQuantity <= 0) {
-      removeFromCart(productId);
-      return;
-    }
-
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === productId ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-
-  const toggleCart = () => {
-    setIsCartOpen((prev) => !prev);
-  };
-
-  const getTotalItems = () => {
-    return cart.reduce((total, item) => total + item.quantity, 0);
-  };
+  // Search is page-level UI state, while cart state lives in context.
+  const [searchTerm, setSearchTerm] = useState('');
 
   return (
-    <div className="app">
-      <Header cartItemCount={getTotalItems()} onCartClick={toggleCart} />
-      <main className="main-content">
-        <ProductList products={products} onAddToCart={addToCart} />
-      </main>
-      <CartSidebar
-        isOpen={isCartOpen}
-        onClose={toggleCart}
-        cart={cart}
-        onUpdateQuantity={updateQuantity}
-        onRemoveItem={removeFromCart}
-      />
-    </div>
+    <BrowserRouter>
+      <div className="app">
+        <Header searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+
+        <main className="main-content">
+          {/* Route each URL to a page component (single-page app behavior). */}
+          <Routes>
+            <Route
+              path="/"
+              element={<HomePage products={products} searchTerm={searchTerm} />}
+            />
+            <Route path="/category/:category" element={<CategoryPage products={products} />} />
+            <Route path="/cart" element={<CartPage />} />
+          </Routes>
+        </main>
+
+        <CartSidebar />
+      </div>
+    </BrowserRouter>
   );
 }
 

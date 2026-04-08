@@ -1,15 +1,14 @@
 import '../styles/CartSidebar.css';
+import { useCart } from '../context/CartContext.jsx';
 
-function CartSidebar({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem }) {
-  const calculateTotal = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
-  };
+function CartSidebar() {
+  const { isCartOpen, toggleCart, cart, updateQuantity, removeFromCart, getTotalPrice } = useCart();
 
   return (
-    <aside className={`cart-sidebar ${isOpen ? 'open' : ''}`} aria-hidden={!isOpen}>
+    <aside className={`cart-sidebar ${isCartOpen ? 'open' : ''}`} aria-hidden={!isCartOpen}>
       <div className="cart-header">
         <h2>Your Cart</h2>
-        <button type="button" onClick={onClose} className="close-btn" aria-label="Close cart">
+        <button type="button" onClick={toggleCart} className="close-btn" aria-label="Close cart">
           x
         </button>
       </div>
@@ -32,7 +31,7 @@ function CartSidebar({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem }) 
                 <button
                   type="button"
                   className="quantity-btn"
-                  onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
                   aria-label={`Decrease quantity for ${item.name}`}
                 >
                   -
@@ -41,7 +40,7 @@ function CartSidebar({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem }) 
                 <button
                   type="button"
                   className="quantity-btn"
-                  onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
                   aria-label={`Increase quantity for ${item.name}`}
                 >
                   +
@@ -51,7 +50,7 @@ function CartSidebar({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem }) 
               <button
                 type="button"
                 className="remove-btn"
-                onClick={() => onRemoveItem(item.id)}
+                onClick={() => removeFromCart(item.id)}
                 aria-label={`Remove ${item.name}`}
               >
                 x
@@ -65,7 +64,7 @@ function CartSidebar({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem }) 
         <div className="cart-footer">
           <div className="cart-total">
             <span>Total</span>
-            <span>${calculateTotal().toFixed(2)}</span>
+            <span>${getTotalPrice().toFixed(2)}</span>
           </div>
         </div>
       )}
