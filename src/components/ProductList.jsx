@@ -1,7 +1,7 @@
 import ProductCard from './ProductCard';
 import '../styles/ProductList.css';
 
-function ProductList({ products, addToCart }) {
+function ProductList({ products }) {
   return (
     <section className="product-list" aria-labelledby="products-heading">
       <div className="section-heading">
@@ -11,7 +11,7 @@ function ProductList({ products, addToCart }) {
       </div>
       <div className="product-grid">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} addToCart={addToCart} />
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </section>
